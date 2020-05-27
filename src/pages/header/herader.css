@@ -1,0 +1,33 @@
+.headerContent {
+    background-color: #282c34;
+    height: 100px;
+    text-align: right;
+    line-height: 100px;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.shopCar {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+}
+
+.count {
+    position: relative;
+    left: -200px;
+    cursor: pointer;
+    
+}
+
+.shopCar:hover {
+    background-color: #fed71a!important;
+    border-radius: 50%;
+}
+
+.closeCar {
+    cursor: pointer;
+    position: relative;
+    left: -190px;
+    top: -10px;
+}

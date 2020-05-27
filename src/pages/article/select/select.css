@@ -1,0 +1,8 @@
+.selectBox{
+    display: flex;
+    justify-content: space-between;
+}
+.product-count,.order{
+    font-size: 25px;
+    font-weight: 400;
+}
