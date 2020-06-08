@@ -1,43 +1,31 @@
 import React from 'react'
 import { ProduceCard } from './productCard/productCard.js'
 import './productList.css'
-import {getProductsData} from '../../../Axios'
-import {connect} from 'dva'
+import { connect } from 'dva'
 
- class ProduceList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            list: []
-        }
+class ProduceList extends React.Component {
+    state = {
+        list: []
     }
-    async componentDidMount() {
-        const resData =  await getProductsData();
-        this.setState({
-            list: resData.data.products
+    componentDidMount() {
+        const { dispatch } = this.props
+        dispatch({
+            type: 'products/query',
+
         })
-
-
     }
     render() {
-        const { list } = this.state;
-        const { products } = this.props;
-        
-        console.log(this.props,"oo")
-  
+
+        const { products, sortProducts } = this.props;
+        const productList = (sortProducts.sortData.length === 0 ? products.resData : sortProducts.sortData).map(item => {
+            return <ProduceCard data={item} key={item.id} />
+        })
         return (
             <div className="produceList">
-                {
-                    list.map(item => {
-                        return <ProduceCard data={item} key={item.id} />
-                    })
-                }
-
+                {productList}
             </div>
         )
     }
 }
-const mapStateToProps = ({ products, selected }) => ({
-    products:products,
-  })
+const mapStateToProps = state => state
 export default connect(mapStateToProps)(ProduceList);

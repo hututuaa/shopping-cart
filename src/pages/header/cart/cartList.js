@@ -16,7 +16,7 @@ export class CarList extends React.Component {
 
     render() {
         const { data } = this.props;
-        console.log(data, "yyyyy")
+        // console.log(data, "yyyyy")
         return (
             <div className="cartList" >
 

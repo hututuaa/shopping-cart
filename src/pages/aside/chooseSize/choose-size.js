@@ -1,7 +1,31 @@
 import React from 'react';
 import './choose-size.css'
-export class ChooseSize extends React.Component {
-    chooseSize=async()=>{
+import { connect } from 'dva'
+class ChooseSize extends React.Component {
+    state = {
+        flag: false
+    };
+    select = (e) => {
+        let { flag } = this.state;
+        const { dispatch } = this.props
+        const chooseStyle = e.target.style
+        const chooseSize = e.target.innerText;
+        console.log(e.target.innerText, "我选择了")
+        if (chooseStyle.color !== "black") {
+            chooseStyle.background = '#ccc';
+            chooseStyle.color = 'black';
+            flag = true;
+
+        } else {
+            chooseStyle.background = '#1a94bc';
+            chooseStyle.color = 'white';
+            flag = false;
+        }
+        dispatch({
+            type: 'sortProducts/sort',
+            payload: { chooseSize: chooseSize, flag: flag },
+
+        })
 
     }
     render() {
@@ -21,3 +45,5 @@ export class ChooseSize extends React.Component {
         )
     }
 }
+const mapStateToProps = state => state
+export default connect(mapStateToProps)(ChooseSize);

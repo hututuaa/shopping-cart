@@ -4,23 +4,24 @@ export default {
     state: {
         resData: []
     },
-    effect: {
+    effects: {
         *query({ payload }, { call, put }) {
-            const {res} = yield call(getProductsData);
-
+            const data = yield call(getProductsData,payload);
+            //  console.log(data.data.products,"resData")
             yield put({
                 type: "setProducts",
-                data: res.data.products
+                payload:data.data.products
             });
 
 
         }
     },
-    reducer: {
+    reducers: {
         setProducts: (state, { payload }) => {
+            // console.log(payload,"payload")
             return {
                 ...state,
-                resData: payload.data
+                resData: payload
             };
         },
     }

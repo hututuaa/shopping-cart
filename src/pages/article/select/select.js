@@ -1,57 +1,53 @@
 import React from 'react'
 import './select.css'
 import { Select } from 'antd';
+import { connect } from 'dva'
 const { Option } = Select;
 
-export class SelectContent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: ''
-        }
+class SelectContent extends React.Component {
+
+    state = {
+        value: ''
     }
-    handleChange = value => {
-        this.setState(() => ({ value }));
-    }
-    onChange = () => {
+
+    componentDidMount() {
+
 
     }
-    onFocus = () => {
 
-    }
-    onFocus = () => {
+    onChange = (value) => {
+        const { dispatch } = this.props
+        dispatch({
+            type: 'sortProducts/sort',
+            payload: { value: value },
 
-    }
-    onBlur = () => {
-
+        })
     }
     render() {
-
+        const { products, sortProducts } = this.props;
+        console.log(sortProducts.sortData, "the choose")
         return (
             <div className="selectBox">
                 <div className="product-count">
-                    17 product(s) found.
+                    {sortProducts.sortData.length === 0 ? products.resData.length : sortProducts.sortData.length} product(s) found.
                 </div>
                 <div className="order">
                     <span style={{ display: 'inline-block', marginRight: '20px' }}>Order By</span>
                     <Select
 
                         style={{ width: 200, marginLeft: '10px', borderRadius: 0, color: 'black', fontSize: '18px' }}
-                        placeholder="All "
+                        placeholder="Default sort "
                         optionFilterProp="children"
                         onChange={this.onChange}
-                        onFocus={this.onFocus}
-                        onBlur={this.onBlur}
                         size='large'
                         filterOption={(input, option) =>
                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
 
                     >
-
-                        <Option value="Default sort">Default sort</Option>
-                        <Option value="Lowest to Height">Lowest to Height</Option>
-                        <Option value="Height to Lowest">Height to Lowest </Option>
+                        <Option value="Default">Default sort</Option>
+                        <Option value="L-t-H">Lowest to Height</Option>
+                        <Option value="H-t-L">Height to Lowest </Option>
                     </Select>,
                 </div>
             </div>
@@ -59,4 +55,5 @@ export class SelectContent extends React.Component {
     }
 }
 
-
+const mapStateToProps = state => state
+export default connect(mapStateToProps)(SelectContent);
