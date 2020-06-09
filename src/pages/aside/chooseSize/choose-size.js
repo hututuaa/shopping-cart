@@ -2,30 +2,54 @@ import React from 'react';
 import './choose-size.css'
 import { connect } from 'dva'
 class ChooseSize extends React.Component {
-    state = {
-        flag: false
-    };
     select = (e) => {
-        let { flag } = this.state;
-        const { dispatch } = this.props
+        const { products, dispatch,sortProducts} = this.props;
         const chooseStyle = e.target.style
         const chooseSize = e.target.innerText;
-        console.log(e.target.innerText, "我选择了")
-        if (chooseStyle.color !== "black") {
+        let newResultId = [];
+        let _newResult = [];
+        const newProducts = products.resData;
+        console.log("newProducts:", newProducts)
+        newProducts.forEach(item => {
+            if (item.availableSizes.indexOf(chooseSize) > -1) {
+                newResultId.push(item.id)
+                return item.id
+            }
+        });
+
+        console.log("newResultId:", newResultId);
+        if (chooseStyle.color === "white") {
             chooseStyle.background = '#ccc';
-            chooseStyle.color = 'black';
-            flag = true;
+            chooseStyle.color = '#666';
 
-        } else {
+    
+            // newResultId.forEach((_item => {
+            //     newProducts.splice(newProducts.findIndex(item => item.id === _item), 1)
+
+            // }))
+            _newResult = newProducts;
+            console.log("66:",_newResult)
+            dispatch({
+                type: 'sortProducts/selectSize',
+                payload: { _newResult: _newResult},
+
+            })
+        }else{
             chooseStyle.background = '#1a94bc';
-            chooseStyle.color = 'white';
-            flag = false;
-        }
-        dispatch({
-            type: 'sortProducts/sort',
-            payload: { chooseSize: chooseSize, flag: flag },
+            chooseStyle.color = "white";
+            _newResult = newProducts.filter((item) => {
+                if (item.availableSizes.indexOf(chooseSize) > -1) {
+                    return item
+                }
+            })
+            console.log("77:",_newResult)
+            dispatch({
+                type: 'sortProducts/selectSize',
+                payload: { _newResult: _newResult },
 
-        })
+            })
+        }
+
 
     }
     render() {

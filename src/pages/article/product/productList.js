@@ -4,9 +4,7 @@ import './productList.css'
 import { connect } from 'dva'
 
 class ProduceList extends React.Component {
-    state = {
-        list: []
-    }
+
     componentDidMount() {
         const { dispatch } = this.props
         dispatch({

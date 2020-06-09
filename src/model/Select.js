@@ -2,48 +2,44 @@ import { getProductsData } from '../Axios'
 export default {
     namespace: 'sortProducts',
     state: {
-        sortData: [],
+        sortData: [],//原始数据
         defaultData: [],
         chooseValue: "Default",
         selectResult: [],
     },
     effects: {
-        *sort({ payload }, { call, put }) {
-            const data = yield call(getProductsData, payload);
-            const _sortData = data.data.products;
+        *sort({ payload }, { put }) {
             const _chooseValue = payload.value;
-            const _chooseSize = payload.chooseSize;
-            const flag = payload.flag;
-            let newResultId = [];
-            _sortData.forEach(item => {
-                if (item.availableSizes.indexOf(_chooseSize) > -1) {
-                    newResultId.push(item.id)
-                    return item.id
-                }
-            });
-            console.log(newResultId, "id")
-  
-            const _newResult = _sortData.filter((item => {
-                if (newResultId.indexOf(item.id) !== -1) {
-                    return _sortData.push(item)
-                }
-                //    return  item
-
-            }))
             yield put({
                 type: "handleSort",
-                payload: { _newResult, _chooseValue }
+                payload: { _chooseValue }
             });
-
         },
+        *selectSize({ payload }, { put }) {
+            const _newResult = payload._newResult;
+            yield put({
+                type: "chooseSize",
+                payload: { _newResult }
+            });
+        }
+
 
     },
     reducers: {
-        handleSort: (state, { payload: { _newResult, _chooseValue } }) => {
+        chooseSize: (state, { payload: { _newResult } }) => {
             return {
                 ...state,
-                sortData: (_chooseValue === "Default" ? _newResult : (_chooseValue === "H-t-L" ? (_newResult.sort((a, b) => { return b.price - a.price })) : (_newResult.sort((a, b) => { return a.price - b.price })))),
+                sortData: _newResult,
+            };
+        },
+        handleSort: (state, { payload: { _chooseValue } }) => {
+            const _newResult = state.sortData;
+            console.log(_newResult, "123")
+            return {
+                ...state,
+                selectResult: (_chooseValue === "Default" ? _newResult : (_chooseValue === "H-t-L" ? (_newResult.sort((a, b) => { return b.price - a.price })) : (_newResult.sort((a, b) => { return a.price - b.price })))),
             };
         },
     }
 }
+

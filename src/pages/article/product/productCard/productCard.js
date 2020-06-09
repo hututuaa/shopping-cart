@@ -2,14 +2,6 @@ import React from 'react'
 import { Card, Button } from 'antd';
 const { Meta } = Card;
 export class ProduceCard extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // this.state = {
-  //   data: {
-  //     name: 'hhhh'
-  //   }
-  // }
-  // }
   addToCart() {
 
   }

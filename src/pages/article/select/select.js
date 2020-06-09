@@ -5,11 +5,6 @@ import { connect } from 'dva'
 const { Option } = Select;
 
 class SelectContent extends React.Component {
-
-    state = {
-        value: ''
-    }
-
     componentDidMount() {
 
 
@@ -25,7 +20,6 @@ class SelectContent extends React.Component {
     }
     render() {
         const { products, sortProducts } = this.props;
-        console.log(sortProducts.sortData, "the choose")
         return (
             <div className="selectBox">
                 <div className="product-count">
