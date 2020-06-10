@@ -6,6 +6,10 @@ export default {
         defaultData: [],
         chooseValue: "Default",
         selectResult: [],
+        clickSize: [],//去重之后尺码对应的id
+        // cancelSize:[],
+        // sumSizeId: [],
+        // staticSize:[]//没有去重的尺码对应的id
     },
     effects: {
         *sort({ payload }, { put }) {
@@ -16,25 +20,25 @@ export default {
             });
         },
         *selectSize({ payload }, { put }) {
-            const _newResult = payload._newResult;
+            const {_newResult,clickSize} = payload;
             yield put({
                 type: "chooseSize",
-                payload: { _newResult }
+                payload: { _newResult,clickSize}
             });
         }
 
 
     },
     reducers: {
-        chooseSize: (state, { payload: { _newResult } }) => {
+        chooseSize: (state, { payload: {  _newResult,clickSize} }) => {
             return {
                 ...state,
                 sortData: _newResult,
+                clickSize:clickSize,
             };
         },
         handleSort: (state, { payload: { _chooseValue } }) => {
             const _newResult = state.sortData;
-            console.log(_newResult, "123")
             return {
                 ...state,
                 selectResult: (_chooseValue === "Default" ? _newResult : (_chooseValue === "H-t-L" ? (_newResult.sort((a, b) => { return b.price - a.price })) : (_newResult.sort((a, b) => { return a.price - b.price })))),

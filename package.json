@@ -17,6 +17,7 @@
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.1"
   },
+  "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
