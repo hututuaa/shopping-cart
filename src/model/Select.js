@@ -1,29 +1,27 @@
-import { getProductsData } from '../Axios'
 export default {
     namespace: 'sortProducts',
     state: {
         sortData: [],//原始数据
         defaultData: [],
-        chooseValue: "Default",
+        chooseValue: "D-S",
         selectResult: [],
-        clickSize: [],//去重之后尺码对应的id
-        // cancelSize:[],
-        // sumSizeId: [],
-        // staticSize:[]//没有去重的尺码对应的id
+        clickSize: [],//选中的尺码
+        // sumData:[]
     },
     effects: {
-        *sort({ payload }, { put }) {
+        *sort({ payload }, {put }) {
             const _chooseValue = payload.value;
+            console.log("11_chooseValue",_chooseValue)
             yield put({
                 type: "handleSort",
                 payload: { _chooseValue }
             });
         },
         *selectSize({ payload }, { put }) {
-            const {_newResult,clickSize} = payload;
+            const {_newResult,clickSize,sumProducts} = payload;
             yield put({
                 type: "chooseSize",
-                payload: { _newResult,clickSize}
+                payload: { _newResult,clickSize,sumProducts}
             });
         }
 
@@ -35,13 +33,17 @@ export default {
                 ...state,
                 sortData: _newResult,
                 clickSize:clickSize,
+                // sumData:sumProducts
+
             };
         },
         handleSort: (state, { payload: { _chooseValue } }) => {
-            const _newResult = state.sortData;
+            let {sortData} = state;
             return {
                 ...state,
-                selectResult: (_chooseValue === "Default" ? _newResult : (_chooseValue === "H-t-L" ? (_newResult.sort((a, b) => { return b.price - a.price })) : (_newResult.sort((a, b) => { return a.price - b.price })))),
+                chooseValue:_chooseValue,
+                selectResult: (_chooseValue === "D-S" ?sortData:(_chooseValue === "H-t-L" ? (sortData.sort((a, b) => { return b.price - a.price })) : (sortData.sort((a, b) => { return a.price - b.price })))),
+
             };
         },
     }

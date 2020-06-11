@@ -10,9 +10,6 @@ class ChooseSize extends React.Component {
         const chooseStyle = e.target.style;
         const chooseSize = e.target.innerText;
         const clickSize = sortProducts.clickSize;
-        // const sortData = sortProducts.sortData;
-        // let sumSizeId = sortProducts.sumSizeId;
-        // const { size } = this.state;
         let newResultId = [];
         let _newResult = [];
         let filterResult = [];
@@ -23,8 +20,6 @@ class ChooseSize extends React.Component {
                 return item.id
             }
         });
-
-        console.log("newResultId:", newResultId);
         if (chooseStyle.color === "white") {
             chooseStyle.background = '#ccc';
             chooseStyle.color = '#666';
@@ -40,11 +35,14 @@ class ChooseSize extends React.Component {
                 })
 
             });
-            console.log("66_newResult", _newResult)
-            console.log("66clickSize",clickSize)
+            function unique(arr) {
+                return Array.from(new Set(arr))
+            }
+            
+            _newResult = unique(_newResult)
             dispatch({
                 type: 'sortProducts/selectSize',
-                payload: { _newResult: _newResult,clickSize:clickSize },
+                payload: { _newResult: _newResult, clickSize: clickSize, sumProducts: newProducts },
 
             })
         } else {
@@ -52,39 +50,26 @@ class ChooseSize extends React.Component {
             clickSize.push(chooseSize);
             chooseStyle.background = '#1a94bc';
             chooseStyle.color = "white";
-            // if (clickSize.length === 0) {
-            //     clickSize.push(...newResultId)
-            // } else {
-            //     sumSizeId = clickSize;
-            //     sumSizeId.push(...newResultId)
-            //     sumSizeId.forEach(item => {
-            //         if (clickSize.indexOf(item) === -1)
-            //             clickSize.push(item)
-            //     })
-
-            // }
-            // let _newResult = newProducts.filter((item) => {
-            //     if (clickSize.indexOf(item.id) > -1) {
-            //         return item
-            //     }
-            // })
-
+            //拿到所有的尺码对应的数据（未去重）
             newProducts.forEach(item => {
-                clickSize.findIndex(_item => {
+                clickSize.forEach(_item => {
                     if (item.availableSizes.indexOf(_item) > -1) {
-                        _newResult.push(item)
+                        filterResult.push(item)
                     }
-                    return _newResult
                 })
 
             });
-            console.log("77_newResult",_newResult)
-            console.log("77clickSize",clickSize)
+            //去重
+            function unique(arr) {
+                return Array.from(new Set(arr))
+            }
+            _newResult = unique(filterResult)
             dispatch({
                 type: 'sortProducts/selectSize',
                 payload: {
                     _newResult: _newResult,
                     clickSize: clickSize,
+                    // sumProducts: newProducts
                 },
 
             })
@@ -96,7 +81,7 @@ class ChooseSize extends React.Component {
         const newSize = [];
         const sizeList = ['XS', 'S', 'M', 'ML', 'L', 'XL', 'XXL'];
         for (let i = 0; i < 7; i++) {
-            newSize.push(<li onClick={this.select} key={sizeList[i]}>{sizeList[i]}</li>);
+            newSize.push(<li onClick={this.select} key={i}>{sizeList[i]}</li>);
         }
 
         return (

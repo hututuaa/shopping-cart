@@ -3,8 +3,8 @@ import React from 'react';
 import './index.css';
 import App from './App';
 import dva from 'dva';
-import select from './model/Select'
-
+import Select from './model/Select'
+import Cart from './model/Cart'
 // ReactDOM.render(
  
 //     <App />,
@@ -14,8 +14,8 @@ import select from './model/Select'
 
 const app = dva();
 app.model(require('./model/Products').default);
-// app.model(cart);
-app.model(select);
+app.model(Cart);
+app.model(Select);
 // app.use(createLoading());
 app.router(() => <App />);
 app.start('#root');

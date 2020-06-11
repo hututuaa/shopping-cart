@@ -12,6 +12,7 @@ class SelectContent extends React.Component {
 
     onChange = (value) => {
         const { dispatch } = this.props
+        console.log("value",value)
         dispatch({
             type: 'sortProducts/sort',
             payload: { value: value },
@@ -23,7 +24,7 @@ class SelectContent extends React.Component {
         return (
             <div className="selectBox">
                 <div className="product-count">
-                    {sortProducts.sortData.length === 0 ? products.resData.length : sortProducts.sortData.length} product(s) found.
+                    {sortProducts.sortData.length === 0 ? products.resData.length : sortProducts.sortData.length} product(s) found
                 </div>
                 <div className="order">
                     <span style={{ display: 'inline-block', marginRight: '20px' }}>Order By</span>
@@ -39,10 +40,10 @@ class SelectContent extends React.Component {
                         }
 
                     >
-                        <Option value="Default">Default sort</Option>
+                        <Option value="D-S">Default sort</Option>
                         <Option value="L-t-H">Lowest to Height</Option>
                         <Option value="H-t-L">Height to Lowest </Option>
-                    </Select>,
+                    </Select>
                 </div>
             </div>
         )
