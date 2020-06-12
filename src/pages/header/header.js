@@ -1,6 +1,6 @@
 import React from 'react';
 import './herader.css'
-import { Drawer, Button, Badge, Empty, Spin} from 'antd'
+import { Drawer, Button, Badge, Empty } from 'antd'
 import CarList from './cart/cartList'
 // import {getProductsData} from '../../Axios'
 import { connect } from 'dva'
@@ -11,6 +11,13 @@ class Header extends React.Component {
             visible: false,
         }
     }
+
+    componentWillMount() {
+        const { dispatch } = this.props
+        dispatch({
+            type: 'cartProducts/setStorage'
+        })
+    }
     showDrawer = () => {
         this.setState({
             visible: true,
@@ -20,31 +27,43 @@ class Header extends React.Component {
         this.setState({
             visible: false,
         })
+
     };
     checkOut = () => {
-        const { dispatch, cartProducts } = this.props;
+        const { dispatch } = this.props;
         let checking = true;
         dispatch({
             type: 'cartProducts/checking',
-            payload:checking,
+            payload: checking,
         })
+       
     }
     render() {
         const { cartProducts } = this.props;
         const subtotal = cartProducts.count;
         const sumPrice = parseFloat(cartProducts.sumPrice).toFixed(2);
         const checking = cartProducts.check;
-        console.log("subtotal：", subtotal)
-        console.log("checking", checking)
-        console.log("sumPrice:", parseFloat(sumPrice).toFixed(2))
+
+        const storage = window.localStorage
+        let data = JSON.stringify(cartProducts.cartList)
+        let _count = cartProducts.count
+        let _subTotal = cartProducts.subTotal
+        let _sumPrice = cartProducts.sumPrice
+
+        storage.setItem("data", data)
+        storage.setItem("count", _count)
+        storage.setItem("subTotal", _subTotal)
+        storage.setItem("sumPrice", _sumPrice)
+
         return (
             <div className="headerContent">
                 <Badge count={subtotal} className="count" >
                     <img src={require("../../assets/bag-icon.png")} onClick={this.showDrawer} alt="" className="shopCar" />
                 </Badge>
                 <Drawer
-                    title={<span> <Badge count={5} className="count"><img src={require("../../assets/bag-icon.png")} alt="" style={{ height: '50px', width: '50px' }} /></Badge>
-                        <span style={{ fontSize: '25px', color: 'white', display: 'inline-block', marginLeft: '10px', verticalAlign: 'middle' }}>Cart</span></span>}
+                    title={<span> <Badge count={subtotal} className="_count"><img src={require("../../assets/bag-icon.png")} alt="" style={{ height: '50px', width: '50px' }} /></Badge>
+                        <span style={{ fontSize: '25px', color: 'white', display: 'inline-block', marginLeft: '10px', verticalAlign: 'middle' }}>Cart</span></span>
+                        }
                     placement="right"
                     closable={true}
                     onClose={this.onClose}
@@ -65,11 +84,10 @@ class Header extends React.Component {
                     }
 
                     <div style={{ borderTop: '1px solid white', height: '180px', width: '450px', bottom: 0, right: 0, position: 'fixed', padding: '20px', background: '#695e45' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'white',height:'30px' }}>
-                            <p style={{ textAlign: 'left', fontSize: '25px',lineHeight:"30px" }}>SubTotal</p>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'white', height: '30px' }}>
+                            <p style={{ textAlign: 'left', fontSize: '25px', lineHeight: "30px" }}>SubTotal</p>
                             <div>
                                 <p style={{ margin: 0, color: 'darkgoldenrod', fontSize: '24px' }}>${sumPrice}</p>
-                                {/* <p style={{ margin: 0, color: 'darkgoldenrod', fontSize: '24px' }}>{subtotal}Pieces</p> */}
                             </div>
                         </div>
                         <div>
@@ -78,10 +96,10 @@ class Header extends React.Component {
                         <Button
                             block
                             style={{ borderRadius: 0, background: '#222', color: 'white', fontSize: '25px', border: 'none', height: '40px', lineHeight: '30px', marginTop: '20px' }}
-                            disabled={subtotal <= 0.00}
+                            disabled={subtotal <= 0.00 || checking === true}
                             onClick={() => this.checkOut()}>
-                           {checking ? <div style={{ color: '#40a9ff' }}>Checkout...</div> :<div>Checkout</div>}
-                       </Button>
+                            {checking ? <div style={{ color: '#40a9ff' }}>Checkout...</div> : <div>Checkout</div>}
+                        </Button>
                     </div>
                 </Drawer>
             </div>

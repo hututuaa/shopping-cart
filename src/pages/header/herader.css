@@ -18,7 +18,6 @@
     position: relative;
     left: -200px;
     cursor: pointer;
-    
 }
 
 .shopCar:hover {
@@ -32,3 +31,4 @@
     left: -190px;
     top: -10px;
 }
+

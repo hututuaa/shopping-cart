@@ -1,7 +1,9 @@
 import React from 'react'
 import { Card, Button, Popover, List } from 'antd';
 import { connect } from 'dva'
+import '../productList.css'
 const { Meta } = Card;
+
 class ProduceCard extends React.Component {
   addToCart = (id, size) => {
     const { dispatch, products, cartProducts } = this.props
@@ -28,8 +30,6 @@ class ProduceCard extends React.Component {
             }
           })
         }
-
-
       }
     } else {
       resData.forEach(item => {
@@ -42,7 +42,6 @@ class ProduceCard extends React.Component {
         }
       })
     }
-
     _products = cartList
     dispatch({
       type: 'cartProducts/cart',
@@ -51,9 +50,9 @@ class ProduceCard extends React.Component {
       }
 
     })
-    dispatch({
-      type: 'cartProducts/checkOut',
-  })
+    // dispatch({
+    //   type: 'cartProducts/checkOut',
+    // })
 
   }
 
@@ -63,6 +62,7 @@ class ProduceCard extends React.Component {
       <Card
         hoverable='true'
         style={{ width: '263px', padding: '10px', border: 'none', cursor: 'inherit', position: 'relative', margin: '5px 5px' }}
+
         cover={<img alt={data.key} src={require(`../../../../assets/products/${data.sku}_1.jpg`)} />}
       >
         <div style={{ fontSize: '12px', position: 'absolute', right: 10, top: 10, background: 'black', color: 'white', padding: '0 2px', borderRadius: '2px' }}>{data.isFreeShipping ? 'Free Shipping' : ''}</div>
@@ -70,6 +70,7 @@ class ProduceCard extends React.Component {
         <p style={{ fontWeight: '600', textAlign: 'center', marginBottom: 0, fontSize: '18px' }}>${data.price.toFixed(2)}</p>
         <p style={{ fontWeight: '500', textAlign: 'center', marginBottom: '10px' }}>or {data.installments} x ${(data.price / data.installments).toFixed(2)}</p>
         <Popover
+          className="cardStyle"
           content={
             <List
               size="large"
