@@ -6,21 +6,49 @@ class ProduceCard extends React.Component {
   addToCart = (id, size) => {
     const { dispatch, products, cartProducts } = this.props
     let _products = [];
-    console.log(  cartProducts.cartList,"  cartProducts.cartList")
-    products.resData.forEach(item => {
-      if (item.id === id && item.availableSizes.includes(size)) {
-        cartProducts.cartList.forEach(_item => {
-          if (size in _item) {
-            item.quantity += 1;
-          }else{
-            item.size = size;
-            item.quantity = 1;
-          }
-        })
-        _products.push(item);
-      }
+    // let resData = JSON.parse(JSON.stringify(products.resData))
+    let resData = products.resData;
+    const cartList = cartProducts.cartList;
+    if (cartList.length !== 0) {
+      cartList.forEach(_item => {
+        console.log(cartList,"cartList")
+        if (typeof (_item.size) !== "undefined" && _item.size === size) {
+          console.log("111")
+          _item.quantity += 1;
+        } else {
 
-    })
+          console.log(cartList,"__cartList")
+            resData.forEach(__item => {
+            if (__item.id === id && __item.availableSizes.includes(size)){
+              var data = {};
+              data = JSON.parse(JSON.stringify(__item));
+              data.size = size;
+              data.quantity = 1;
+              cartList.push(data)
+      
+            }
+    
+            
+          })
+        }
+
+      })
+    } else {
+       resData.forEach(item => {
+        if (item.id === id && item.availableSizes.includes(size)) {
+          // item.size = size;
+          // item.quantity = 1;
+          // cartList.push(item)
+          var data = {};
+          data = JSON.parse(JSON.stringify(item));
+          data.size = size;
+          data.quantity = 1;
+          cartList.push(data)
+        }
+      })
+    }
+
+    _products = cartProducts.cartList
     console.log("_products:", _products)
     dispatch({
       type: 'cartProducts/cart',
@@ -29,8 +57,7 @@ class ProduceCard extends React.Component {
       }
 
     })
-    // console.log(id, size, "111")
-    // console.log(this.props, "this.props")
+
   }
 
   render() {

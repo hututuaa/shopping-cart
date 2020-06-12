@@ -18,9 +18,10 @@ export default {
     },
     reducers: {
         handleCart: (state, { payload }) => {
+            const {_products} = payload
             return {
                 ...state,
-                cartList: payload._products,
+                cartList: [..._products],
             };
         },
     }

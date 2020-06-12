@@ -21,7 +21,7 @@ console.log("aa")
 
     render() {
         const { data,cartProducts} = this.props;
-        console.log("cartList",cartProducts.cartList)
+        console.log("cartListfffffff",cartProducts.cartList)
         return (
             <div className="cartList" >
                 <img src={require(`../../../assets/products/${data.sku}_1.jpg`)} alt="" style={{ width: '80px', height: '100px' }} />

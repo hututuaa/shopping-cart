@@ -2,9 +2,6 @@ import React from 'react';
 import './choose-size.css'
 import { connect } from 'dva'
 class ChooseSize extends React.Component {
-    // state = {
-    //     size: []
-    // }
     select = (e) => {
         const { products, dispatch, sortProducts } = this.props;
         const chooseStyle = e.target.style;
@@ -38,7 +35,7 @@ class ChooseSize extends React.Component {
             function unique(arr) {
                 return Array.from(new Set(arr))
             }
-            
+
             _newResult = unique(_newResult)
             dispatch({
                 type: 'sortProducts/selectSize',
