@@ -6,39 +6,34 @@ class ProduceCard extends React.Component {
   addToCart = (id, size) => {
     const { dispatch, products, cartProducts } = this.props
     let _products = [];
-    // let resData = JSON.parse(JSON.stringify(products.resData))
-    let resData = products.resData;
-    const cartList = cartProducts.cartList;
+    let resData = JSON.parse(JSON.stringify(products.resData))
+    let cartList = cartProducts.cartList;
     if (cartList.length !== 0) {
-      cartList.forEach(_item => {
-        console.log(cartList,"cartList")
-        if (typeof (_item.size) !== "undefined" && _item.size === size) {
-          console.log("111")
-          _item.quantity += 1;
+      let cartLength = cartList.length
+      for (let index = 0; index < cartLength + 1; index++) {
+        let _item = cartList[index]
+        if (index < cartList.length) {
+          if (typeof (_item.size) !== "undefined" && _item.size === size) {
+            cartList[index].quantity += 1;
+            break;
+          }
         } else {
-
-          console.log(cartList,"__cartList")
-            resData.forEach(__item => {
-            if (__item.id === id && __item.availableSizes.includes(size)){
+          resData.forEach(__item => {
+            if (__item.id === id && __item.availableSizes.includes(size)) {
               var data = {};
               data = JSON.parse(JSON.stringify(__item));
               data.size = size;
               data.quantity = 1;
               cartList.push(data)
-      
             }
-    
-            
           })
         }
 
-      })
+
+      }
     } else {
-       resData.forEach(item => {
+      resData.forEach(item => {
         if (item.id === id && item.availableSizes.includes(size)) {
-          // item.size = size;
-          // item.quantity = 1;
-          // cartList.push(item)
           var data = {};
           data = JSON.parse(JSON.stringify(item));
           data.size = size;
@@ -48,8 +43,7 @@ class ProduceCard extends React.Component {
       })
     }
 
-    _products = cartProducts.cartList
-    console.log("_products:", _products)
+    _products = cartList
     dispatch({
       type: 'cartProducts/cart',
       payload: {
@@ -57,6 +51,9 @@ class ProduceCard extends React.Component {
       }
 
     })
+    dispatch({
+      type: 'cartProducts/checkOut',
+  })
 
   }
 
@@ -99,14 +96,4 @@ class ProduceCard extends React.Component {
 }
 
 const mapStateToProps = state => state
-// const mapDispatchToProps = (dispatch) => ({
-//   addToCart: (id, size) => dispatch({
-//       type: 'cartProducts/addToCart',
-//       payload: {
-//           id:id,
-//           size:size
-//       }
-//   }),
-
-// })
 export default connect(mapStateToProps)(ProduceCard);
