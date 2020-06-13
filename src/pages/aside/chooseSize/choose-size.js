@@ -79,7 +79,7 @@ class ChooseSize extends React.Component {
         const newSize = [];
         const sizeList = ['XS', 'S', 'M', 'ML', 'L', 'XL', 'XXL'];
         for (let i = 0; i < 7; i++) {
-            newSize.push(<Tooltip title={sizeList[i]} color="white"><Button onClick={this.select} style={{ margin: 5 }} key={i} shape="circle" size="large" >{sizeList[i]}</Button></Tooltip>);
+            newSize.push(<Tooltip title={sizeList[i]} color="white"><Button onClick={this.select} style={{ margin: 5 }} key={sizeList[i].id+i} shape="circle" size="large" >{sizeList[i]}</Button></Tooltip>);
         }
 
         return (

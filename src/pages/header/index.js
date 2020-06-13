@@ -4,7 +4,7 @@ import { Drawer, Button, Badge, Empty, message } from 'antd'
 import CarList from './cart/cartList'
 // import {getProductsData} from '../../Axios'
 import { connect } from 'dva'
-let success;
+// let success;
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -53,10 +53,12 @@ class Header extends React.Component {
             });
         }, 3000);
         const storage = window.localStorage
-        storage.removeItem('data')
-        storage.removeItem("count")
-        storage.removeItem("subTotal")
-        storage.removeItem("sumPrice")
+        storage.setItem('data',[])
+        storage.setItem("count",'0')
+        storage.setItem("subTotal",'0')
+        storage.setItem("sumPrice",'0')
+        // window.localStorage.clear()
+        
     };
     render() {
         const { cartProducts } = this.props;

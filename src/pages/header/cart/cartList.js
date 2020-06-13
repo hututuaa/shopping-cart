@@ -45,7 +45,7 @@ class CarList extends React.Component {
     }
 
     render() {
-        const { data, cartProducts } = this.props;
+        const { data } = this.props;
         return (
             <div className="cartList" >
                 <img src={require(`../../../assets/products/${data.sku}_1.jpg`)} alt="" style={{ width: '80px', height: '100px' }} />

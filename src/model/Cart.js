@@ -90,6 +90,10 @@ export default {
                 type: "handleChecked",
                 payload: payload
             })
+            yield put({
+                type: "removeCart",
+                // payload: payload
+            })
         }
     },
     reducers: {
@@ -203,6 +207,14 @@ export default {
             return {
                 ...state,
                 check: payload
+            }
+        },
+        removeCart:(state)=>{
+            return{
+                ...state,
+                cartList: [],
+                count: 0,
+                sumPrice: 0,
             }
         }
 
