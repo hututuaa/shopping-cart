@@ -1,9 +1,10 @@
 import React from 'react';
-import './herader.css'
-import { Drawer, Button, Badge, Empty } from 'antd'
+import './index.css'
+import { Drawer, Button, Badge, Empty, message } from 'antd'
 import CarList from './cart/cartList'
 // import {getProductsData} from '../../Axios'
 import { connect } from 'dva'
+let success;
 class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -35,26 +36,43 @@ class Header extends React.Component {
         dispatch({
             type: 'cartProducts/checking',
             payload: checking,
-        })
-       
+
+        });
     }
+    success = () => {
+        const { cartProducts, dispatch } = this.props;
+        const sumPrice = parseFloat(cartProducts.sumPrice).toFixed(2);
+        let checked = false;
+        //三秒之后弹出结算信息
+        setTimeout(() => {
+            message.success(`成功结算￥${sumPrice}`, 3);
+            dispatch({
+                type: 'cartProducts/checked',
+                payload: checked,
+
+            });
+        }, 3000);
+        const storage = window.localStorage
+        storage.removeItem('data')
+        storage.removeItem("count")
+        storage.removeItem("subTotal")
+        storage.removeItem("sumPrice")
+    };
     render() {
         const { cartProducts } = this.props;
         const subtotal = cartProducts.count;
         const sumPrice = parseFloat(cartProducts.sumPrice).toFixed(2);
         const checking = cartProducts.check;
-
+        //存入storage
         const storage = window.localStorage
         let data = JSON.stringify(cartProducts.cartList)
         let _count = cartProducts.count
         let _subTotal = cartProducts.subTotal
         let _sumPrice = cartProducts.sumPrice
-
         storage.setItem("data", data)
         storage.setItem("count", _count)
         storage.setItem("subTotal", _subTotal)
         storage.setItem("sumPrice", _sumPrice)
-
         return (
             <div className="headerContent">
                 <Badge count={subtotal} className="count" >
@@ -63,7 +81,7 @@ class Header extends React.Component {
                 <Drawer
                     title={<span> <Badge count={subtotal} className="_count"><img src={require("../../assets/bag-icon.png")} alt="" style={{ height: '50px', width: '50px' }} /></Badge>
                         <span style={{ fontSize: '25px', color: 'white', display: 'inline-block', marginLeft: '10px', verticalAlign: 'middle' }}>Cart</span></span>
-                        }
+                    }
                     placement="right"
                     closable={true}
                     onClose={this.onClose}
@@ -95,9 +113,9 @@ class Header extends React.Component {
                         </div>
                         <Button
                             block
-                            style={{ borderRadius: 0, background: '#222', color: 'white', fontSize: '25px', border: 'none', height: '40px', lineHeight: '30px', marginTop: '20px' }}
+                            style={{ borderRadius: 0, background:subtotal <= 0.00? '#aaa':'#222', color: 'white', fontSize: '25px', border: 'none', height: '40px', lineHeight: '30px', marginTop: '20px' }}
                             disabled={subtotal <= 0.00 || checking === true}
-                            onClick={() => this.checkOut()}>
+                            onClick={() => { this.checkOut(); this.success() }}>
                             {checking ? <div style={{ color: '#40a9ff' }}>Checkout...</div> : <div>Checkout</div>}
                         </Button>
                     </div>

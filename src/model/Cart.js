@@ -4,7 +4,7 @@ export default {
         cartList: [],
         count: 0,
         sumPrice: 0,
-        check: null,
+        check: false,
   
     },
     effects: {
@@ -83,7 +83,13 @@ export default {
             yield put({
                 type: 'subTotal',
             })
-
+        },
+        *checked({payload},{put}){
+            
+            yield put({
+                type: "handleChecked",
+                payload: payload
+            })
         }
     },
     reducers: {
@@ -191,6 +197,12 @@ export default {
             return {
                 ...state,
                 sumPrice: subTotal
+            }
+        },
+        handleChecked:(state,{payload})=>{
+            return {
+                ...state,
+                check: payload
             }
         }
 

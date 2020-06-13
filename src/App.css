@@ -1,11 +1,11 @@
 .App {
   text-align: center;
   /* background-color:#eef7f2; */
-  background:#e4dfd7;
-  /* width: 100%; */
-  
-  
+  background: #e4dfd7;
+  height: 100%;
+  width: 100%;
 }
+
 .header {
   background-color: #282c34;
   height: 100px;
@@ -17,11 +17,9 @@
   color: white;
 }
 
-.content{
+.content {
   width: 1400px;
   display: flex;
   margin: 30px auto;
   height: 100%;
-
 }
-

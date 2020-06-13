@@ -5,8 +5,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  background:#e4dfd7;
+  background-color: #1b4833;
+  /* height: 2500px; */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+html,body{
+  width: 100%;
+  height: 100%;
 }

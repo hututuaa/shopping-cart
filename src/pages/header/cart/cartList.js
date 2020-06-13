@@ -32,14 +32,14 @@ class CarList extends React.Component {
             }
         })
     }
-    remove = (id,quantity,size)=>{
+    remove = (id, quantity, size) => {
         const { dispatch } = this.props;
         dispatch({
             type: 'cartProducts/remove',
             payload: {
                 id: id,
                 size: size,
-                quantity:0,
+                quantity: 0,
             }
         })
     }
@@ -57,9 +57,9 @@ class CarList extends React.Component {
                 <div className="others">
 
                     <div style={{ color: '#222', fontSize: '18px', fontWeight: 'bolder', marginBottom: '10px' }}>
-                        <span>$ {data.price.toFixed(2)}</span> 
-                        <span onClick={()=>this.remove(data.id,data.quantity,data.size)} style={{marginLeft:'10px',color:'#666',fontWeight:'500',cursor:'pointer'}}>X</span>
-                        </div>
+                        <span>$ {data.price.toFixed(2)}</span>
+                        <span onClick={() => this.remove(data.id, data.quantity, data.size)} style={{ marginLeft: '10px', color: '#666', fontWeight: '500', cursor: 'pointer' }}>X</span>
+                    </div>
                     <div>
                         <ButtonGroup>
                             <Button shape="circle" size="small" icon={<PlusOutlined />} style={{ borderRadius: 0 }} onClick={() => this.add(data.id, data.quantity, data.size)} />
