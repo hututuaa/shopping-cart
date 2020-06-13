@@ -18,7 +18,7 @@
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.1"
   },
-  "homepage": ".",
+  "homepage":".",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -26,7 +26,7 @@
     "eject": "react-scripts eject",
     "dev":"npx gh-pages -d build/"
   },
-  "eslintConfig": {
+  "eslintConfig": { 
     "extends": "react-app"
   },
   "browserslist": {
