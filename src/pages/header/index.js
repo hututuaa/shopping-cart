@@ -51,7 +51,7 @@ class Header extends React.Component {
 
             });
         }, 3000);
-      
+
     };
     render() {
         const { cartProducts } = this.props;
@@ -61,9 +61,12 @@ class Header extends React.Component {
         //存入storage
         return (
             <div className="headerContent">
-                <Badge count={subtotal} className="count" >
-                    <img src={require("../../assets/bag-icon.png")} onClick={this.showDrawer} alt="" className="shopCar" />
-                </Badge>
+                <div className="count">
+                    <Badge count={subtotal}  >
+                        <img src={require("../../assets/bag-icon.png")} onClick={this.showDrawer} alt="" className="shopCar" />
+                    </Badge>
+                </div>
+
                 <Drawer
                     title={<span> <Badge count={subtotal} className="_count"><img src={require("../../assets/bag-icon.png")} alt="" style={{ height: '50px', width: '50px' }} /></Badge>
                         <span style={{ fontSize: '25px', color: 'white', display: 'inline-block', marginLeft: '10px', verticalAlign: 'middle' }}>Cart</span></span>
@@ -99,7 +102,7 @@ class Header extends React.Component {
                         </div>
                         <Button
                             block
-                            style={{ borderRadius: 0, background:subtotal <= 0.00? '#aaa':'#222', color: 'white', fontSize: '25px', border: 'none', height: '40px', lineHeight: '30px', marginTop: '20px' }}
+                            style={{ borderRadius: 0, background: subtotal <= 0.00 ? '#aaa' : '#222', color: 'white', fontSize: '25px', border: 'none', height: '40px', lineHeight: '30px', marginTop: '20px' }}
                             disabled={subtotal <= 0.00 || checking === true}
                             onClick={() => { this.checkOut(); this.success() }}>
                             {checking ? <div style={{ color: '#40a9ff' }}>Checkout...</div> : <div>Checkout</div>}

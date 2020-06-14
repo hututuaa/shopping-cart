@@ -11,15 +11,19 @@ export default {
     },
     effects: {
         *query({ payload }, { call, put }) {
-            const data = yield call(getProductsData, payload);
-            if(data.status !== '200'){
-                window.alert("数据请求失败,请稍等。。。。");
-            }
-        
-            yield put({
+            //模拟网络请求并捕捉错误
+            try{
+                const data = yield call(getProductsData, payload);
+              yield put({
                 type: "setProducts",
                 payload: data.data.products
             });
+ 
+            }catch(e){
+                alert(e)
+            }
+           
+
 
 
         },
@@ -37,7 +41,7 @@ export default {
             let newResultId = [];
             let _newResult = [];
             let filterResult = [];
-            const { chooseStyle,chooseSize } = payload;
+            const { chooseStyle, chooseSize } = payload;
             const newProducts = resData;
             newProducts.forEach(item => {
                 if (item.availableSizes.indexOf(chooseSize) > -1) {
