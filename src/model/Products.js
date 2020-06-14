@@ -12,6 +12,10 @@ export default {
     effects: {
         *query({ payload }, { call, put }) {
             const data = yield call(getProductsData, payload);
+            if(data.status !== '200'){
+                window.alert("数据请求失败,请稍等。。。。");
+            }
+        
             yield put({
                 type: "setProducts",
                 payload: data.data.products
@@ -27,11 +31,77 @@ export default {
                 payload: { _chooseValue }
             });
         },
-        *selectSize({ payload }, { put }) {
-            const { _newResult, clickSize, sumProducts } = payload;
+        *selectSize({ payload }, { select, put }) {
+            const stateArr = yield select(state => state);
+            const { resData, clickSize } = stateArr.products
+            let newResultId = [];
+            let _newResult = [];
+            let filterResult = [];
+            const { chooseStyle,chooseSize } = payload;
+            const newProducts = resData;
+            newProducts.forEach(item => {
+                if (item.availableSizes.indexOf(chooseSize) > -1) {
+                    newResultId.push(item.id)
+                    return item.id
+                }
+            });
+            if (chooseStyle.color === "white") {
+                chooseStyle.background = 'white';
+                chooseStyle.color = '#666';
+                //取消选中的尺码
+                clickSize.splice(clickSize.findIndex(v => v === chooseSize), 1)
+                //由选中的尺码从全部的数据中去筛选取值
+                newProducts.forEach(item => {
+                    clickSize.findIndex(_item => {
+                        if (item.availableSizes.indexOf(_item) > -1) {
+                            _newResult.push(item)
+                        }
+                        return _newResult
+                    })
+
+                });
+                function unique(arr) {
+                    return Array.from(new Set(arr))
+                }
+
+                _newResult = unique(_newResult)
+                // dispatch({
+                //     type: 'products/selectSize',
+                //     payload: { _newResult: _newResult, clickSize: clickSize, sumProducts: newProducts },
+
+                // })
+            } else {
+                //增加选中的尺码
+                clickSize.push(chooseSize);
+                chooseStyle.background = '#1a94bc';
+                chooseStyle.color = "white";
+                //拿到所有的尺码对应的数据（未去重）
+                newProducts.forEach(item => {
+                    clickSize.forEach(_item => {
+                        if (item.availableSizes.indexOf(_item) > -1) {
+                            filterResult.push(item)
+                        }
+                    })
+
+                });
+                //去重
+                function unique(arr) {
+                    return Array.from(new Set(arr))
+                }
+                _newResult = unique(filterResult)
+                // dispatch({
+                //     type: 'products/selectSize',
+                //     payload: {
+                //         _newResult: _newResult,
+                //         clickSize: clickSize,
+                //     },
+
+                // })
+            }
+            // const { _newResult, clickSize, sumProducts } = payload;
             yield put({
                 type: "chooseSize",
-                payload: { _newResult, clickSize, sumProducts }
+                payload: { _newResult, clickSize, newProducts }
             });
         }
     },

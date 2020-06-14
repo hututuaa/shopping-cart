@@ -7,3 +7,10 @@
     font-size: 25px;
     font-weight: 400;
 }
+
+:global{
+    .ant-list-lg .ant-list-item{
+        padding:0;
+    }
+}
+    

@@ -1,8 +1,10 @@
-.produceList{
+.produceList {
     display: flex;
     flex-wrap: wrap;
     margin-top: 10px;
     width: 95%;
-  
-    
+}
+
+.ant-list-lg .ant-list-item{
+    padding :2px 0!important;
 }
