@@ -52,7 +52,7 @@ class CarList extends React.Component {
                 <div className="desc">
                     <p>{data.title}</p>
                     <span>{data.size} | {data.style}</span>  <span style={{ fontWeight: '100', fontSize: '16px', marginLeft: '7px' }}>X  {data.quantity}</span>
-                    <sapn>{data.desc}</sapn>
+                    <span>{data.desc}</span>
                 </div>
                 <div className="others">
 
