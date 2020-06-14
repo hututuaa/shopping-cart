@@ -13,13 +13,14 @@
     display: inline-block;
     height: 50px;
     width: 50px;
+    
   
 }
 
 .count {
-    position:  fixed;
+    position:  fixed!important;
     /* left: -200px; */
-    top:0px;
+    top:20px;
     right: 200px;
     cursor: pointer;
     
