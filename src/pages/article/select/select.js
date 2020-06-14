@@ -14,17 +14,17 @@ class SelectContent extends React.Component {
         const { dispatch } = this.props
         console.log("value",value)
         dispatch({
-            type: 'sortProducts/sort',
+            type: 'products/sort',
             payload: { value: value },
 
         })
     }
     render() {
-        const { products, sortProducts } = this.props;
+        const { products} = this.props;
         return (
             <div className="selectBox">
                 <div className="product-count">
-                    {sortProducts.sortData.length === 0 ? products.resData.length : sortProducts.sortData.length} product(s) found
+                    {products.sortData.length === 0 ? products.resData.length : products.sortData.length} product(s) found
                 </div>
                 <div className="order">
                     <span style={{ display: 'inline-block', marginRight: '20px' }}>Order By</span>

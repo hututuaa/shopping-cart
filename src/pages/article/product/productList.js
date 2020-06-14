@@ -12,8 +12,8 @@ class ProduceList extends React.Component {
         })
     }
     render() {
-        const { products, sortProducts } = this.props;
-        const productList = (sortProducts.sortData.length === 0 ? products.resData : sortProducts.sortData).map(item => {
+        const { products } = this.props;
+        const productList = (products.sortData.length === 0 ? products.resData : products.sortData).map(item => {
             return <ProduceCard data={item} key={item.id} />
         })
         return (

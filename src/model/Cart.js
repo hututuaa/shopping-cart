@@ -5,10 +5,11 @@ export default {
         count: 0,
         sumPrice: 0,
         check: false,
-  
+
+
     },
     effects: {
-        *cart({ payload }, { put }) {
+        *cart({ payload }, { select, put }) {
             const { _products } = payload;
             yield put({
                 type: "handleCart",
@@ -22,19 +23,31 @@ export default {
             });
 
         },
-         *checking({ payload }, { put }) {
+        *checking({ payload }, { put }) {
             yield put({
                 type: "handleCheck",
                 payload: payload
             });
         },
-        *setStorage({ payload }, { put }) {
+        *setStorage({ payload }, { select, put }) {
+            const storage = window.localStorage
+            //从state拿到数据
+            const stateArr = yield select(state => state)
+            let { cartList, count, sumPrice } = stateArr.cartProducts;
+            let data = JSON.stringify(cartList)
+            let _count = count
+            // let _subTotal = cartProducts.subTotal
+            let _sumPrice = sumPrice
+            storage.setItem("data", data)
+            storage.setItem("count", _count)
+            // storage.setItem("subTotal", _subTotal)
+            storage.setItem("sumPrice", _sumPrice)
             yield put({
                 type: "_setStorage",
                 payload: {
                     data: JSON.parse(window.localStorage.data),
                     _count: window.localStorage.count,
-                    _subTotal: window.localStorage.subTotal,
+                    // _subTotal: window.localStorage.subTotal,
                     _sumPrice: window.localStorage.sumPrice
                 }
             });
@@ -68,8 +81,8 @@ export default {
                 type: 'subTotal',
             })
         },
-        *remove({payload},{put}){
-            const { id,size,quantity } = payload;
+        *remove({ payload }, { put }) {
+            const { id, size, quantity } = payload;
 
             yield put({
                 type: "handleRemove",
@@ -84,8 +97,8 @@ export default {
                 type: 'subTotal',
             })
         },
-        *checked({payload},{put}){
-            
+        *checked({ payload }, { put }) {
+
             yield put({
                 type: "handleChecked",
                 payload: payload
@@ -174,25 +187,25 @@ export default {
                 count: count,
             }
         },
-        handleRemove(state, {payload}) {
-            const {cartList} = state;
-            const { id,size,quantity } = payload;
+        handleRemove(state, { payload }) {
+            const { cartList } = state;
+            const { id, size, quantity } = payload;
             let count = 0
             cartList.forEach(item => {
-              if(item.id === id && item.size === size) {
-                item.quantity = quantity
-                cartList.splice(cartList.findIndex(item => item.id === id), 1)
-              }
+                if (item.id === id && item.size === size) {
+                    item.quantity = quantity
+                    cartList.splice(cartList.findIndex(item => item.id === id), 1)
+                }
             })
             cartList.forEach(item => {
-              count += item.quantity
+                count += item.quantity
             })
             return {
-              ...state,
-              cartList:cartList,
-              count:count
+                ...state,
+                cartList: cartList,
+                count: count
             }
-          },
+        },
         subTotal: (state) => {
             let subTotal = 0
             state.cartList.forEach(item => {
@@ -203,14 +216,14 @@ export default {
                 sumPrice: subTotal
             }
         },
-        handleChecked:(state,{payload})=>{
+        handleChecked: (state, { payload }) => {
             return {
                 ...state,
                 check: payload
             }
         },
-        removeCart:(state)=>{
-            return{
+        removeCart: (state) => {
+            return {
                 ...state,
                 cartList: [],
                 count: 0,

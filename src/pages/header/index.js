@@ -12,7 +12,6 @@ class Header extends React.Component {
             visible: false,
         }
     }
-
     componentWillMount() {
         const { dispatch } = this.props
         dispatch({
@@ -52,13 +51,7 @@ class Header extends React.Component {
 
             });
         }, 3000);
-        const storage = window.localStorage
-        storage.setItem('data',[])
-        storage.setItem("count",'0')
-        storage.setItem("subTotal",'0')
-        storage.setItem("sumPrice",'0')
-        // window.localStorage.clear()
-        
+      
     };
     render() {
         const { cartProducts } = this.props;
@@ -66,15 +59,6 @@ class Header extends React.Component {
         const sumPrice = parseFloat(cartProducts.sumPrice).toFixed(2);
         const checking = cartProducts.check;
         //存入storage
-        const storage = window.localStorage
-        let data = JSON.stringify(cartProducts.cartList)
-        let _count = cartProducts.count
-        let _subTotal = cartProducts.subTotal
-        let _sumPrice = cartProducts.sumPrice
-        storage.setItem("data", data)
-        storage.setItem("count", _count)
-        storage.setItem("subTotal", _subTotal)
-        storage.setItem("sumPrice", _sumPrice)
         return (
             <div className="headerContent">
                 <Badge count={subtotal} className="count" >

@@ -4,10 +4,10 @@ import { connect } from 'dva'
 import { Button, Tooltip } from 'antd'
 class ChooseSize extends React.Component {
     select = (e) => {
-        const { products, dispatch, sortProducts } = this.props;
+        const { products, dispatch} = this.props;
         const chooseStyle = e.currentTarget.style;
         const chooseSize = e.target.innerText;
-        const clickSize = sortProducts.clickSize;
+        const clickSize = products.clickSize;
         let newResultId = [];
         let _newResult = [];
         let filterResult = [];
@@ -39,7 +39,7 @@ class ChooseSize extends React.Component {
 
             _newResult = unique(_newResult)
             dispatch({
-                type: 'sortProducts/selectSize',
+                type: 'products/selectSize',
                 payload: { _newResult: _newResult, clickSize: clickSize, sumProducts: newProducts },
 
             })
@@ -63,11 +63,10 @@ class ChooseSize extends React.Component {
             }
             _newResult = unique(filterResult)
             dispatch({
-                type: 'sortProducts/selectSize',
+                type: 'products/selectSize',
                 payload: {
                     _newResult: _newResult,
                     clickSize: clickSize,
-                    // sumProducts: newProducts
                 },
 
             })
