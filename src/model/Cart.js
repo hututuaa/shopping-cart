@@ -33,14 +33,15 @@ export default {
             const storage = window.localStorage
             //从state拿到数据
             const stateArr = yield select(state => state)
+            console.log(stateArr,'kkkkkk')
             let { cartList, count, sumPrice } = stateArr.cartProducts;
             let data = JSON.stringify(cartList)
             let _count = count
             let _sumPrice = sumPrice
-            // console.log(data,"hhjhj")
             storage.setItem("data", data)
             storage.setItem("count", _count)
             storage.setItem("sumPrice", _sumPrice)
+       
             yield put({
                 type: "_setStorage",
                 payload: {
@@ -51,14 +52,13 @@ export default {
             });
         },
         *getStorage({ payload }, { put }) {
-            const storage = window.localStorage;
             //刚开始从localStorage拿值
             yield put({
                 type: "_setStorage",
                 payload: {
-                    data: JSON.parse(window.localStorage.data),
-                    _count: window.localStorage.count,
-                    _sumPrice: window.localStorage.sumPrice
+                    data: window.localStorage.data?JSON.parse(window.localStorage.data):[],
+                    _count: window.localStorage.count?window.localStorage.count:0,
+                    _sumPrice: window.localStorage.sumPrice?window.localStorage.sumPrice:0,
                 }
             });
         },

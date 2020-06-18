@@ -52,7 +52,7 @@ class ProduceCard extends React.Component {
     })
     dispatch({
       type: 'cartProducts/setStorage',
-    })
+      })
 
   }
 

@@ -5,11 +5,7 @@ import { connect } from 'dva'
 const { Option } = Select;
 
 class SelectContent extends React.Component {
-    componentDidMount() {
-
-
-    }
-
+  
     onChange = (value) => {
         const { dispatch } = this.props
         console.log("value",value)
