@@ -50,9 +50,9 @@ class ProduceCard extends React.Component {
       }
 
     })
-    // dispatch({
-    //   type: 'cartProducts/checkOut',
-    // })
+    dispatch({
+      type: 'cartProducts/setStorage',
+    })
 
   }
 

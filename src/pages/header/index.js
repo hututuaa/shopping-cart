@@ -15,7 +15,7 @@ class Header extends React.Component {
     componentWillMount() {
         const { dispatch } = this.props
         dispatch({
-            type: 'cartProducts/setStorage'
+            type: 'cartProducts/getStorage'
         })
     }
     showDrawer = () => {
@@ -50,6 +50,9 @@ class Header extends React.Component {
                 payload: checked,
 
             });
+            window.localStorage.removeItem("data");
+            window.localStorage.removeItem("count");
+            window.localStorage.removeItem("sumprice")
         }, 3000);
 
     };

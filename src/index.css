@@ -6,6 +6,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   background:#e4dfd7!important;
+  min-width: 1200px;
   
 }
 

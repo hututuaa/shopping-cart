@@ -36,22 +36,34 @@ export default {
             let { cartList, count, sumPrice } = stateArr.cartProducts;
             let data = JSON.stringify(cartList)
             let _count = count
-            // let _subTotal = cartProducts.subTotal
             let _sumPrice = sumPrice
+            // console.log(data,"hhjhj")
             storage.setItem("data", data)
             storage.setItem("count", _count)
-            // storage.setItem("subTotal", _subTotal)
             storage.setItem("sumPrice", _sumPrice)
             yield put({
                 type: "_setStorage",
                 payload: {
                     data: JSON.parse(window.localStorage.data),
                     _count: window.localStorage.count,
-                    // _subTotal: window.localStorage.subTotal,
                     _sumPrice: window.localStorage.sumPrice
                 }
             });
         },
+        *getStorage({ payload }, { put }) {
+            const storage = window.localStorage;
+            //刚开始从localStorage拿值
+            yield put({
+                type: "_setStorage",
+                payload: {
+                    data: JSON.parse(window.localStorage.data),
+                    _count: window.localStorage.count,
+                    _sumPrice: window.localStorage.sumPrice
+                }
+            });
+        },
+
+
         *add({ payload }, { put }) {
             const { id, quantity, size } = payload;
             yield put({
@@ -142,13 +154,12 @@ export default {
             }
         },
         _setStorage: (state, { payload }) => {
-            const { data, _count, _subTotal, _sumPrice } = payload;
+            const { data, _count, _sumPrice } = payload;
             return {
                 ...state,
                 cartList: data,
                 count: _count,
                 sumPrice: _sumPrice,
-                subTotal: _subTotal,
             }
         },
         addCount: (state, { payload }) => {
